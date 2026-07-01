@@ -1,0 +1,8 @@
+# Core runtime dependency (pretty terminal tables). Everything else is stdlib.
+rich>=13.0
+
+# Testing (optional):
+#   pip install pytest
+#
+# Optional REAL guardrail backends (NOT required for the offline demo):
+#   pip install "overguard[real]"   # transformers, torch, ollama

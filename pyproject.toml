@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "overguard"
+version = "0.1.0"
+description = "Offline, CPU-first leaderboard for guardrail over-refusal (false-positive / over-blocking) evaluation."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Dhanush Shankar", email = "danushankar3@gmail.com" }]
+keywords = ["ai-safety", "guardrails", "llm-evaluation", "over-refusal", "benchmark"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+# Optional real guardrail backends. Not needed for the default offline demo.
+real = ["transformers>=4.40", "torch>=2.0", "ollama>=0.3"]
+dev = ["pytest>=7.0"]
+
+[project.scripts]
+overguard = "overguard.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Danush-Aries/overguard"
+Repository = "https://github.com/Danush-Aries/overguard"
+
+[tool.setuptools]
+packages = ["overguard"]
+
+[tool.setuptools.package-data]
+overguard = ["data/*.jsonl"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

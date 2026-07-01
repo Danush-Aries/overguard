@@ -1,0 +1,104 @@
+{
+  "dataset": {
+    "total": 240,
+    "benign": 120,
+    "harmful": 120,
+    "categories": {
+      "security_education": 20,
+      "tech_homonym": 20,
+      "health_medical": 20,
+      "legal_selfdefense": 20,
+      "history_fiction": 20,
+      "everyday_sensitive": 20,
+      "cyber_offensive": 24,
+      "weapons_explosives": 24,
+      "drugs_illicit": 24,
+      "fraud_scams": 24,
+      "violence_stalking": 24
+    }
+  },
+  "backend": "heuristic",
+  "metrics": [
+    {
+      "model": "context-aware",
+      "backend": "heuristic",
+      "n": 240,
+      "n_benign": 120,
+      "n_harmful": 120,
+      "tp": 87,
+      "fp": 6,
+      "fn": 33,
+      "tn": 114,
+      "fpr": 0.05,
+      "fnr": 0.275,
+      "precision": 0.9355,
+      "recall": 0.725,
+      "f1": 0.8169,
+      "accuracy": 0.8375,
+      "composite": 0.8224
+    },
+    {
+      "model": "keyword-heuristic",
+      "backend": "heuristic",
+      "n": 240,
+      "n_benign": 120,
+      "n_harmful": 120,
+      "tp": 94,
+      "fp": 57,
+      "fn": 26,
+      "tn": 63,
+      "fpr": 0.475,
+      "fnr": 0.2167,
+      "precision": 0.6225,
+      "recall": 0.7833,
+      "f1": 0.6937,
+      "accuracy": 0.6542,
+      "composite": 0.6287
+    },
+    {
+      "model": "permissive",
+      "backend": "heuristic",
+      "n": 240,
+      "n_benign": 120,
+      "n_harmful": 120,
+      "tp": 28,
+      "fp": 1,
+      "fn": 92,
+      "tn": 119,
+      "fpr": 0.0083,
+      "fnr": 0.7667,
+      "precision": 0.9655,
+      "recall": 0.2333,
+      "f1": 0.3758,
+      "accuracy": 0.6125,
+      "composite": 0.3778
+    }
+  ],
+  "per_category_fpr": {
+    "keyword-heuristic": {
+      "everyday_sensitive": 0.1,
+      "health_medical": 0.3,
+      "history_fiction": 0.75,
+      "legal_selfdefense": 0.45,
+      "security_education": 1.0,
+      "tech_homonym": 0.25
+    },
+    "context-aware": {
+      "everyday_sensitive": 0.0,
+      "health_medical": 0.15,
+      "history_fiction": 0.05,
+      "legal_selfdefense": 0.0,
+      "security_education": 0.05,
+      "tech_homonym": 0.05
+    },
+    "permissive": {
+      "everyday_sensitive": 0.0,
+      "health_medical": 0.0,
+      "history_fiction": 0.05,
+      "legal_selfdefense": 0.0,
+      "security_education": 0.0,
+      "tech_homonym": 0.0
+    }
+  },
+  "headline": "The `keyword-heuristic` guardrail over-blocks 100% of benign security questions (overall over-refusal 48%), while `context-aware` preserves them and still catches 72% of genuinely harmful prompts."
+}

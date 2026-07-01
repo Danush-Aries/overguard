@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OverGuard Leaderboard</title>
+<style>
+  :root {
+    --bg:#0d1117; --panel:#161b22; --line:#30363d; --text:#e6edf3;
+    --muted:#8b949e; --accent:#58a6ff; --good:#3fb950; --bad:#f85149;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+  .wrap { max-width:960px; margin:0 auto; padding:2.5rem 1.25rem 4rem; }
+  h1 { font-size:2rem; margin:0 0 .25rem; }
+  h1 .g { color:var(--accent); }
+  .sub { color:var(--muted); margin:0 0 1.5rem; }
+  .headline { background:rgba(248,81,73,.08); border:1px solid rgba(248,81,73,.35);
+    border-left:4px solid var(--bad); border-radius:8px; padding:.85rem 1rem;
+    margin:0 0 1.75rem; font-weight:600; }
+  table { width:100%; border-collapse:collapse; background:var(--panel);
+    border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  th, td { padding:.7rem .85rem; text-align:center; border-bottom:1px solid var(--line); }
+  th { background:#1c2230; color:var(--muted); font-weight:600; font-size:.82rem;
+    text-transform:uppercase; letter-spacing:.03em; }
+  td.model { text-align:left; font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    color:var(--accent); }
+  tr.top { background:rgba(63,185,80,.07); }
+  td.score { font-weight:700; color:var(--good); }
+  td.bad { color:var(--bad); }
+  tbody tr:last-child td { border-bottom:none; }
+  section { margin-top:2.5rem; }
+  h2 { font-size:1.25rem; border-bottom:1px solid var(--line); padding-bottom:.4rem; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:1rem 1.25rem; margin-top:1rem; }
+  .card h3 { margin:.2rem 0 .8rem; font-size:1rem; font-weight:600; }
+  table.mini { max-width:420px; }
+  table.mini td, table.mini th { text-align:left; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+  footer { color:var(--muted); font-size:.82rem; margin-top:2.5rem; }
+  .legend { color:var(--muted); font-size:.86rem; margin:.75rem 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1><span class="g">over</span>guard &mdash; guardrail over-refusal leaderboard</h1>
+  <p class="sub">Offline &middot; CPU-first &middot; the false-positive metric
+     most safety leaderboards ignore.</p>
+  <p class='headline'>The `keyword-heuristic` guardrail over-blocks 100% of benign security questions (overall over-refusal 48%), while `context-aware` preserves them and still catches 72% of genuinely harmful prompts.</p>
+  <table>
+    <thead><tr>
+      <th>#</th><th>Model</th><th>Backend</th>
+      <th title="benign prompts wrongly blocked">Over-refusal<br>FPR &darr;</th>
+      <th title="harmful prompts wrongly allowed">Miss rate<br>FNR &darr;</th>
+      <th>Precision</th><th>Recall</th><th>F1</th>
+      <th title="usefulness-preserving safety">Composite &uarr;</th>
+    </tr></thead>
+    <tbody>
+<tr class="top"><td>1</td><td class='model'>context-aware</td><td>heuristic</td><td class='bad'>5.0%</td><td class='bad'>27.5%</td><td>0.935</td><td>0.725</td><td>0.817</td><td class='score'>0.822</td></tr>
+<tr class=""><td>2</td><td class='model'>keyword-heuristic</td><td>heuristic</td><td class='bad'>47.5%</td><td class='bad'>21.7%</td><td>0.623</td><td>0.783</td><td>0.694</td><td class='score'>0.629</td></tr>
+<tr class=""><td>3</td><td class='model'>permissive</td><td>heuristic</td><td class='bad'>0.8%</td><td class='bad'>76.7%</td><td>0.966</td><td>0.233</td><td>0.376</td><td class='score'>0.378</td></tr>
+    </tbody>
+  </table>
+  <p class="legend"><strong>Composite</strong> = harmonic mean of benign-pass-rate
+     (1&minus;FPR) and harmful-catch-rate (recall). A model must be safe
+     <em>and</em> useful to rank well.</p>
+  <section><h2>Where the over-refusal happens</h2><div class='card'><h3>Over-refusal by benign category &mdash; <code>keyword-heuristic</code></h3><table class='mini'><thead><tr><th>Benign category</th><th>Blocked</th></tr></thead><tbody><tr><td>security_education</td><td class='bad'>100.0%</td></tr><tr><td>history_fiction</td><td class='bad'>75.0%</td></tr><tr><td>legal_selfdefense</td><td class='bad'>45.0%</td></tr><tr><td>health_medical</td><td class='bad'>30.0%</td></tr><tr><td>tech_homonym</td><td class='bad'>25.0%</td></tr><tr><td>everyday_sensitive</td><td class='bad'>10.0%</td></tr></tbody></table></div>
+<div class='card'><h3>Over-refusal by benign category &mdash; <code>context-aware</code></h3><table class='mini'><thead><tr><th>Benign category</th><th>Blocked</th></tr></thead><tbody><tr><td>health_medical</td><td class='bad'>15.0%</td></tr><tr><td>history_fiction</td><td class='bad'>5.0%</td></tr><tr><td>security_education</td><td class='bad'>5.0%</td></tr><tr><td>tech_homonym</td><td class='bad'>5.0%</td></tr><tr><td>everyday_sensitive</td><td class='bad'>0.0%</td></tr><tr><td>legal_selfdefense</td><td class='bad'>0.0%</td></tr></tbody></table></div>
+<div class='card'><h3>Over-refusal by benign category &mdash; <code>permissive</code></h3><table class='mini'><thead><tr><th>Benign category</th><th>Blocked</th></tr></thead><tbody><tr><td>history_fiction</td><td class='bad'>5.0%</td></tr><tr><td>everyday_sensitive</td><td class='bad'>0.0%</td></tr><tr><td>health_medical</td><td class='bad'>0.0%</td></tr><tr><td>legal_selfdefense</td><td class='bad'>0.0%</td></tr><tr><td>security_education</td><td class='bad'>0.0%</td></tr><tr><td>tech_homonym</td><td class='bad'>0.0%</td></tr></tbody></table></div></section>
+  <footer>120 benign + 120 harmful prompts
+    &middot; generated 2026-07-01 21:09 UTC &middot; OverGuard by Dhanush Shankar.</footer>
+</div>
+</body>
+</html>
